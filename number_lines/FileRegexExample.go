@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-		testFile, err := ioutil.ReadFile("test.txt")
+		testFile, err := ioutil.ReadFile("./test.txt")
 		if err != nil { fmt.Print(err) }
     testString := string(testFile)
 		var re = regexp.MustCompile(`(?m)^([0-9]+)$`)
