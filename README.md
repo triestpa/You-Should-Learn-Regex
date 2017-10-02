@@ -23,11 +23,11 @@ Command line
 
 ### Useful resources
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
-https://regex101.com
+https://regex10-com
 
 ### 0 - Simplest Examples
 
-#### 0.0 - Match Any Number Line
+#### -0 - Match Any Number Line
 
 We'll start with a very simple example - Match any line that only contains numbers.
 
@@ -37,10 +37,10 @@ We'll start with a very simple example - Match any line that only contains numbe
 
 Let's walk through this piece-by-piece.
 
-1. `^` - Signifies the start of a line.
-2. `[0-9]` - Matches any digit between 0 and 9.
-3. `+` - Matches one or more instance of the preceding expression.
-4. `$` - Signifies the end of the line.
+- `^` - Signifies the start of a line.
+- `[0-9]` - Matches any digit between 0 and -
+- `+` - Matches one or more instance of the preceding expression.
+- `$` - Signifies the end of the line.
 
 We could re-write this regex in psuedo-English as `[start of line][one or more digits][end of line]`.
 
@@ -60,7 +60,7 @@ abcde
 1
 ```
 
-Our regular expression should match three lines - 1234, 5362, and 1.
+Our regular expression should match three lines - 1234, 5362, and -
 
 For instance, here's the implementation in Javascript, with Node.js, reading the input data from a local file - `test.txt`.
 
@@ -102,8 +102,6 @@ File.open("test.txt", "rb") do |f|
     end
 end
 ```
-
-How about in Haskell?
 
 ###### Haskell
 ```haskell
@@ -249,9 +247,7 @@ int main () {
 }
 ```
 
-
 Writting out the same regex operation in fourteen languages is a fun exercise, but we'll be mostly sticking with Javascript and Python for the rest of the tutorial since they tend to have the shortest, simplest implementations.
-
 
 ### Email Validation
 
@@ -265,13 +261,13 @@ Ok, let's do something slightly more useful.
 
 This is a simplistic regex to match any email address.
 
-1. `^` - Start of line
-2. `.[^@\s]+` - Match any character (except for "@", and whitespace) 1+ times
-3. `@` - Match the '@' symbol
-4. `.[^@\s]+` - Match any character (except for "@" and whitespace), 1+ times
-5. `\.` - Match the '.' character.
-6. `\w{2,6}` - Match any word character (letter, digit, or underscore), 2-6 times
-7. `$` - End of line
+- `^` - Start of line
+- `.[^@\s]+` - Match any character (except for "@", and whitespace) 1+ times
+- `@` - Match the '@' symbol
+- `.[^@\s]+` - Match any character (except for "@" and whitespace), 1+ times
+- `\.` - Match the '.' character.
+- `\w{2,6}` - Match any word character (letter, digit, or underscore), 2-6 times
+- `$` - End of line
 
 Hence, we could write this expresion as -
 [start of line][1+ characters][@ symbol][1+ characters][period symbol][2-6 characters][end of line]
@@ -296,7 +292,7 @@ The output of this script should be `true false false false false`.
 
 #### Full Email Regex
 
-This is a very simplistic example which ignores lots of email-validity edge cases.  I don't reccomend using this in you applications, it would be best to instead use a reputable email-validation library, or to track down a more complete email validation regex.
+This is a very simplistic example which ignores lots of email-validity edge cases.  I don't recommend using this in you applications; it would be best to instead use a reputable email-validation library, or to track down a more complete email validation regex.
 
 For instance, here's a more advanced expression from [emailregex.com](http://emailregex.com/) which matches 99% of RFC 5322 compliant email addresses.
 
@@ -310,7 +306,7 @@ Yeah, we're not going to walk through that one.
 
 #### 20th or 21st Century Year
 
-Let's go through another simple example - any valid year in the 20th or 21st centuries.
+Let's go through another simple example - matching any valid year in the 20th or 21st centuries.
 
 ```
 \b(19|20)\d{2}\b
@@ -320,40 +316,34 @@ This should be pretty comprehensible given what we've learned so far.
 
 Note that we're starting and ending this regex with `\b` instead of `^` and `$`.  `\b` represents a *word boundry*, or a space between two words.  This will allow us to match years that are not on their own lines, which is of course very useful for search through, say, paragraph text.
 
-1. `\b` - Word boundary
-2. `(19|20)` - Matches either '19' or '20' using the OR ('|') operand.
-3. `\d{2}` - Two digits, same as `[0-9]{2}`
-4. `\b` - Word boundary
+- `\b` - Word boundary
+- `(19|20)` - Matches either '19' or '20' using the OR ('|') operand.
+- `\d{2}` - Two digits, same as `[0-9]{2}`
+- `\b` - Word boundary
 
-> Note that `\b` differs from `\s`, the code for a whitespace character.  `\b` searches for a place where a word character is is not followed or preceded by another word-character, so it is essentially searching for the *absense* of a word character, whereas `\s` is searching explicitly for a space character.  This is especially appropratiate for cases (such as this) where we want to match a specific sequence, but not the whitespace before or after it.
+> Note that `\b` differs from `\s`, the code for a whitespace character.  `\b` searches for a place where a word character is is not followed or preceded by another word-character, so it is essentially searching for the *absence* of a word character, whereas `\s` is searching explicitly for a space character.  `\b` is especially appropratiate for cases where we want to match a specific sequence/word, but not the whitespace before or after it.
 
-As an example, we can use this expression in a Python script tp find how many times each year (in the 20th or 21st century) is mentioned in the wikipedia article on WWII.
+As an example, we can use this expression in a Python script to find how many times each year (in the 20th or 21st century) is mentioned in a historical Wikipedia article.
 
 ```python
 import re
-import urllib
+import urllib.request
 import operator
-from bs4 import BeautifulSoup
 
-def download_wwii_wiki():
-  url = "https://en.wikipedia.org/wiki/Diplomatic_history_of_World_War_II"
-  html = urllib.request.urlopen(url).read()
-  soup = BeautifulSoup(html)
-  count_years(soup.get_text())
+# Download wiki page
+url = "https://en.wikipedia.org/wiki/Diplomatic_history_of_World_War_II"
+html = urllib.request.urlopen(url).read()
 
-def count_years(text):
-  # Find all mentioned years in the 20th or 21st century
-  regex = r"\b(?:19|20)\d{2}\b"
-  matches = re.findall(regex, text)
+# Find all mentioned years in the 20th or 21st century
+regex = r"\b(?:19|20)\d{2}\b"
+matches = re.findall(regex, str(html))
 
-  # Form a dict of the number of occurrences of each year
-  year_counts = dict((year, matches.count(year)) for year in set(matches))
+# Form a dict of the number of occurrences of each year
+year_counts = dict((year, matches.count(year)) for year in set(matches))
 
-  # Print the dict sorted in descending order
-  for year in sorted(year_counts, key=year_counts.get, reverse=True):
-    print(year, year_counts[year])
-
-download_wwii_wiki()
+# Print the dict sorted in descending order
+for year in sorted(year_counts, key=year_counts.get, reverse=True):
+  print(year, year_counts[year])
 ```
 
 The above script will result in output like this -
@@ -376,15 +366,15 @@ Now we'll define a regex expression to match any time in the 24 hour format (say
 \b([01]?[0-9]|2[0-3]):([0-5]\d)\b
 ```
 
-1. `\b` - Word boundary
-2. `[01]` - 0 or 1
-3. `?` - Signifies that the preceding pattern is optional.
-4. `[0-9]` - any number between 0 and 9
-5. `|` - OR
-6. `2[0-3]` - 2, followed by any number between 0 and 3
-7. `:` - Matches the `:` character
-8. `[0-5]` - Any number between 0 and 5
-9. `\d` - Any number between 0 and 9 (same as `[0-9]`)
+- `\b` - Word boundary
+- `[01]` - 0 or 1
+- `?` - Signifies that the preceding pattern is optional.
+- `[0-9]` - any number between 0 and 9
+- `|` - OR
+- `2[0-3]` - 2, followed by any number between 0 and 3
+- `:` - Matches the `:` character
+- `[0-5]` - Any number between 0 and 5
+- `\d` - Any number between 0 and 9 (same as `[0-9]`)
 
 #### Capture Groups
 
@@ -424,11 +414,11 @@ Let's stay on our date-time matching path, and make it more interesting by match
 
 This one is a bit longer, but should look pretty similar to what we've covered already.
 
-1. `(0?[1-9]|[12]\d|3[01])` - Match any number between 1 and 31
-2. `([ \/\-])` - Match the seperator: "/" or "-"
-3. `(0?[1-9]|1[012])` - Match any number between 1 and 12
-4. `\2` - Matches the second capture group (the seperator)
-5. `\d{4}` - Match any 4 digit number (0000 - 9999)
+- `(0?[1-9]|[12]\d|3[01])` - Match any number between 1 and 31
+- `([ \/\-])` - Match the seperator: "/" or "-"
+- `(0?[1-9]|1[012])` - Match any number between 1 and 12
+- `\2` - Matches the second capture group (the seperator)
+- `\d{4}` - Match any 4 digit number (0000 - 9999)
 
 Ok, pretty straightforward based on what we've already done.
 
@@ -477,7 +467,7 @@ result = re.sub(regex, subst, test_str)
 print(result)
 ```
 
-### Code Comment Pattern Matching
+## Code Comment Pattern Matching
 
 One of the most useful ad-hoc usages of regular expressions can be for quickly refactoring code.  Most code editors support regex-based find/replace operations.  A well-formed regex substituion can turn a tedious 30-minute refactor into a single-expression piece of wizardy.
 
@@ -497,11 +487,11 @@ To capture any *single-line* CSS comment, we can use the following expression.
 
 There are a bunch of `*` symbols here, so let's break it down.
 
-2. `\/` - Match `/` symbol (we have to use the `\` escape character)
-3. `\*+` - Match one or more `*` symbols (again, we have to escape the `*` with `\`).
-4. `(.*)` - Match any character (besides a new line), any number of times
-5. `\*+` - Match one or more `*` characters
-6. `\/` - Match closing `/` symbol.
+- `\/` - Match `/` symbol (we have to use the `\` escape character)
+- `\*+` - Match one or more `*` symbols (again, we have to escape the `*` with `\`).
+- `(.*)` - Match any character (besides a new line), any number of times
+- `\*+` - Match one or more `*` characters
+- `\/` - Match closing `/` symbol.
 
 #### Convert Single-Line Comments to Multi-Line Comments
 
@@ -544,6 +534,7 @@ h2 {
 ```
 
 Then the script will output
+
 ```css
 /**
  Double Asterisk Comment
@@ -590,7 +581,17 @@ To standardize the opening of each comment we can pass the following substituion
 /*$2$3
 ```
 
-Try out this substitution on the following file using your favorite test editor.
+Instead of writing a script to perform this operation, try doing it natively in your text editor of choice.  Nearly every text editor supports regex based find-and-replace, here are a few guides for popular editors.
+
+Regex in Sublime - http://docs.sublimetext.info/en/latest/search_and_replace/search_and_replace_overview.html#using-regular-expressions-in-sublime-text
+
+Regex in Vim - http://vimregex.com/#backreferences
+
+Regex in VSCode - https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options
+
+Regex in emacs - https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html
+
+Try out the above substitution on the following file contents.
 
 ```css
 /** Double Asterisk Comment */
@@ -609,35 +610,55 @@ h2 {
 }
 ```
 
-##### Usage Within Editors
+The output will be -
+```css
+/* Double Asterisk Comment */
+body {
+  background-color: pink;
+}
 
-Regex in Sublime - http://docs.sublimetext.info/en/latest/search_and_replace/search_and_replace_overview.html#using-regular-expressions-in-sublime-text
+/* Single Asterisk Comment */
+h1 {
+  font-size: 2rem;
+}
 
-Regex in Vim - http://vimregex.com/#backreferences
+/* Many Asterisk Comment */
+h2 {
+  font-size: 1rem;
+}
+```
 
-Regex in VSCode - https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options
-
-Regex in emacs - https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html
 
 #### 5 - URL Matching
 
-##### 5.0 - Match Any URL
+##### Match Any URL
 
 // https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
 (https?:\/\/)(www\.)?(?<domain>[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6})(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?
 
-1. `(https?:\/\/)?` - Match http or https (optional)
-2. `(www\.)?` - Optional "www" prefix
-3. `(?<domain>[-a-zA-Z0-9@:%._\+~#=]{2,256}` - Match a valid domain name
-4. `\.[a-z]{2,6})` - Match a domain extension extension (i.e. ".com" or ".org")
-5. `(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?` - Match URL path (`/posts`), query string (`?limit=1`), and file extension (`.html`), all optional.
+- `(https?:\/\/)?` - Match http or https (optional)
+- `(www\.)?` - Optional "www" prefix
+- `(?<domain>[-a-zA-Z0-9@:%._\+~#=]{2,256}` - Match a valid domain name
+- `\.[a-z]{2,6})` - Match a domain extension extension (i.e. ".com" or ".org")
+- `(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?` - Match URL path (`/posts`), query string (`?limit=1`), and file extension (`.html`), all optional.
 
 ###### Named capture groups
 
-##### Extract URL Data
+You'll notice here that some of the capture groups now begins with a `?<name>`identifier.  This is the syntax for a *named capture group*, which makes the data extraction easier and more clear.
 
-##### Scrape Webpage For Links
+For instance, here's how we could extract the domain of each URL from a raw webpage HTML string using Python.
 
+```python
+import re
+import urllib.request
+
+html = str(urllib.request.urlopen("https://moz.com/top500").read())
+regex = r"(https?:\/\/)(www\.)?(?P<domain>[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6})(?P<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?"
+matches = re.finditer(regex, html)
+
+for match in matches:
+  print(match.group('domain'))
+```
 
 ### Command Line Usage
 
@@ -649,13 +670,13 @@ Now we'll define another basic regular expression, this time to match image file
 ^.+\.(?i)(png|jpg|jpeg|gif|webp)$
 ```
 
-1. `^` - Start of line.
-2. `.` - Match any character (letters, digits, symbols), expect for "\n" (new line).
-3. `+` - 1+ times.
-4. `\.` - Match the '.' character.  We have to use the escape character `\`, since `.` on it's own symbolizes any character.
-5. `(?i)` - Signifies that the next sequence is case-insensitive.
-6. `(png|jpg|jpeg|gif|webp)` - Matches common image file extensions
-7. `$` - End of line
+- `^` - Start of line.
+- `.` - Match any character (letters, digits, symbols), expect for "\n" (new line).
+- `+` - 1+ times.
+- `\.` - Match the '.' character.  We have to use the escape character `\`, since `.` on it's own symbolizes any character.
+- `(?i)` - Signifies that the next sequence is case-insensitive.
+- `(png|jpg|jpeg|gif|webp)` - Matches common image file extensions
+- `$` - End of line
 
 So in summary, the above regular expression can be read as - `[start of line][one of more characers][period][case-insensitive image extension][end of line]`
 
@@ -709,9 +730,9 @@ My email is {redacted}
 ```
 
 
-### SQL Usage
-
 ## Conclusion
+
+- you can also use with SQL, btw
 
 #### When NOT To Use Regex
 - Is a specialized parser available (ex. HTML, JSON, XML), since a full syntax tree implementation is more appropriate
