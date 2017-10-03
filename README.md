@@ -25,9 +25,7 @@ Command line
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
 https://regex10-com
 
-### 0 - Simplest Examples
-
-#### -0 - Match Any Number Line
+## Match Any Number Line
 
 We'll start with a very simple example - Match any line that only contains numbers.
 
@@ -60,11 +58,13 @@ abcde
 1
 ```
 
-Our regular expression should match three lines - 1234, 5362, and -
+Our regular expression should match three lines - 1234, 5362, and 1.
+
+We'll now quickly go through how to perform this regex search in eleven of the most popular/useful programming languages - Javascript, Python, Ruby, Haskell, Perl, PHP, Go, Java, Rust, C++, and Bash.
 
 For instance, here's the implementation in Javascript, with Node.js, reading the input data from a local file - `test.txt`.
 
-###### Javascript
+#### Javascript
 ```javascript
 const fs = require('fs')
 
@@ -76,9 +76,9 @@ console.log(results)
 
 The result will be `[ '1234', '5362', '1' ]`.
 
-Here it is in Python
+Here is the same logic in Python
 
-###### Python
+#### Python
 ```python
 import re
 
@@ -89,9 +89,7 @@ with open('test.txt', 'r') as f:
   print(result)
 ```
 
-Notice how, despite being in completely different languages, the Javascript and Python code for this operation is nearly identical.
-
-###### Ruby
+#### Ruby
 In Ruby
 ```ruby
 File.open("test.txt", "rb") do |f|
@@ -103,7 +101,7 @@ File.open("test.txt", "rb") do |f|
 end
 ```
 
-###### Haskell
+#### Haskell
 ```haskell
 import Text.Regex.PCRE
 
@@ -113,7 +111,7 @@ main = do
   print (getAllTextMatches stringResult)
 ```
 
-###### Perl
+#### Perl
 ```perl
 open my $fh, '<', 'test.txt' or die "Unable to open file $!";
 read $fh, my $file_content, -s $fh;
@@ -123,7 +121,7 @@ my @matches = $file_content =~ /$regex/g;
 print join(',', @matches);
 ```
 
-###### PHP
+#### PHP
 ```php
 <?php
 $myfile = fopen("test.txt", "r") or die("Unable to open file.");
@@ -135,7 +133,7 @@ var_dump($matches);
 ?>
 ```
 
-###### Go
+#### Go
 ```go
 package main
 
@@ -155,7 +153,7 @@ func main() {
 }
 ```
 
-###### Java
+#### Java
 ```java
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -194,7 +192,7 @@ class FileRegexExample {
 }
 ```
 
-###### Rust
+#### Rust
 ```rust
 extern crate regex;
 use std::fs::File;
@@ -219,9 +217,9 @@ fn main() {
     println!("{}", &test_str[mat.start()..mat.end()]);
   }
 }
-```
 
-###### C++
+```
+#### C++
 ```c++
 #include <string>
 #include <fstream>
@@ -247,13 +245,17 @@ int main () {
 }
 ```
 
-Writting out the same regex operation in fourteen languages is a fun exercise, but we'll be mostly sticking with Javascript and Python for the rest of the tutorial since they tend to have the shortest, simplest implementations.
+```bash
+cat test.txt | grep -E "^[0-9]+$"
+```
 
-### Email Validation
+Using the above code, it should be relatively easy to translate the regex script to any other language, such as Typescript/Coffeescript/Elm/Clojurescript (all of which use the Javascript regex engine), Kotlin/Scala/Clojure (which use the Java regex engine), or to C# (which would likely look most similar to a the Java and Javascript examples above).
+
+Writing out the same regex operation in twelve languages was a fun exercise, but we'll be mostly sticking with Javascript and Python for the rest of the tutorial.
+
+## Email Validation
 
 Ok, let's do something slightly more useful.
-
-#### Minimal Validation Expression
 
 ```
 ^.[^@\s]+@.[^@\s]+\.\w{2,6}$
@@ -272,6 +274,7 @@ This is a simplistic regex to match any email address.
 Hence, we could write this expresion as -
 [start of line][1+ characters][@ symbol][1+ characters][period symbol][2-6 characters][end of line]
 
+#### Real-World Example - Validate Email
 As an example, let's say we wanted to create a simple Javascript function to check if the input is a valid email.
 
 ```javascript
@@ -302,9 +305,7 @@ For instance, here's a more advanced expression from [emailregex.com](http://ema
 
 Yeah, we're not going to walk through that one.
 
-### Datetime Matching
-
-#### 20th or 21st Century Year
+## Year Matching
 
 Let's go through another simple example - matching any valid year in the 20th or 21st centuries.
 
@@ -358,7 +359,7 @@ The above script will result in output like this -
 1954 1
 ```
 
-#### 24-Hour Time Format
+## Time Matching
 
 Now we'll define a regex expression to match any time in the 24 hour format (say, 16:59).
 
@@ -378,9 +379,11 @@ Now we'll define a regex expression to match any time in the 24 hour format (say
 
 #### Capture Groups
 
-You might have noticed something different about the above pattern - we're wrapping the hour and minute capture segments in parenthesis (`( ... )`).  This allows us to define each part of the pattern as a *capture group*.
+You might have noticed something new in the above pattern - we're wrapping the hour and minute capture segments in parenthesis (`( ... )`).  This allows us to define each part of the pattern as a *capture group*.
 
 Capture groups are one of the most powerful features of Regex, since they allow us individually extract and transforms parts of each matched pattern.
+
+#### Real-World Example - Time Parsing
 
 For example, in the above 24-hour pattern, we've defined two capture groups - one for the hour and one for the minute.
 
@@ -404,9 +407,9 @@ The current hour is 16
 The current minute is 24
 ```
 
-#### DD/MM/YYYY Matching
+## Date Matching
 
-Let's stay on our date-time matching path, and make it more interesting by matching an entire `DAY/MONTH/YEAR` style pattern.
+Now let's match a `DAY/MONTH/YEAR` style date pattern.
 
 ```
 \b(0?[1-9]|[12]\d|3[01])([ \/\-])(0?[1-9]|1[012])\2(\d{4})
@@ -420,19 +423,21 @@ This one is a bit longer, but should look pretty similar to what we've covered a
 - `\2` - Matches the second capture group (the seperator)
 - `\d{4}` - Match any 4 digit number (0000 - 9999)
 
-Ok, pretty straightforward based on what we've already done.
-
 The only new concept here is that we're using `\2` to match the second capture group, which is the divider ("/" or "-").  This enables us avoid repeating our pattern matching specification, and will also require that the dividers are consistant (if the first divider is a "/", then the second must be as well).
 
 #### Capture Group Substitution
 
-We can reorganize and transform our string input using capture groups.
+Using capture groups, we can dynamically reorganize and transform our string input.
 
-The standard way to refer to capture groups is to use the `$` symbol, along with the index of the capture group (remember that the zeroth element is the full captured text).
+The standard way to refer to capture groups is to use the `$` or `\` symbol, along with the index of the capture group (remember that the zeroth element is the full captured text).
 
-For instance, if we wanted to change the format of the data to be `MONTH/DAY/YEAR` instead of `DAY/MONTH/YEAR`, we could assign a replacement pattern - `$3$2$1$2$4`.
+#### Real-World Example - Date Format Transformation
 
-Let's break this down.
+Let's imagine that we were tasked with converting a collection of documents from using the international date format style (`DAY/MONTH/YEAR`) to the American style (`MONTH/DAY/YEAR`)
+
+We could use the above regular expression with a replacement pattern - `$3$2$1$2$4` or `\3\2\1\2\4`.
+
+Let's break the capture groups down.
 $1 - First capture group: the day digits.
 $2 - Second capture group: the divider.
 $3 - Third capture group: the month digits.
@@ -452,11 +457,7 @@ console.log(result)
 
 The above script will print "Today's date is 09/18/2017" to the console.
 
-#### Python
-
-Some languages use a different syntax for the capture group matching/replacement.
-
-For instance, here's how the same script would look in Python, using `\x` instead of `$x`.
+Here's how the same script would look in Python -
 
 ```python
 import re
@@ -471,13 +472,24 @@ print(result)
 
 One of the most useful ad-hoc usages of regular expressions can be for quickly refactoring code.  Most code editors support regex-based find/replace operations.  A well-formed regex substituion can turn a tedious 30-minute refactor into a single-expression piece of wizardy.
 
-For instance, what if we want to find all of the comments with a CSS file.
+Instead of writing a scripts to perform these operation, try doing them natively in your text editor of choice.  Nearly every text editor supports regex based find-and-replace, here are a few guides for popular editors.
+
+Regex in Sublime - http://docs.sublimetext.info/en/latest/search_and_replace/search_and_replace_overview.html#using-regular-expressions-in-sublime-text
+
+Regex in Vim - http://vimregex.com/#backreferences
+
+Regex in VSCode - https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options
+
+Regex in emacs - https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html
+
+
+#### Single Line CSS Comments
+
+What if we want to find all of the comments with a CSS file?
 
 CSS comments come in the form `/* Comment Here */`
 
 > We're choosing CSS comments here since it has the one of the simplest comment syntaxes: it only allows the near-universal `/* ... */` syntax for multi-line and single-line comments, without the `//`, `#`, `---`, , `<!--`, or `'''` style alternatives found in other languages.  This base expression should be relatively easy to extend with OR operands (`|`) for use with other languages.
-
-#### Single Line CSS Comments
 
 To capture any *single-line* CSS comment, we can use the following expression.
 
@@ -493,7 +505,7 @@ There are a bunch of `*` symbols here, so let's break it down.
 - `\*+` - Match one or more `*` characters
 - `\/` - Match closing `/` symbol.
 
-#### Convert Single-Line Comments to Multi-Line Comments
+#### Real-World Example - Convert Single-Line Comments to Multi-Line Comments
 
 We could use this expression to turn each single-line comment into a multi-line comment by performing the following subsitution.
 
@@ -502,17 +514,6 @@ $1\n$2\n$3
 ```
 
 Here, we are simply adding a newline `\n` between each capture group.
-
-Here's how it might look in Javascript.
-
-```javascript
-const fs = require('fs')
-const regex = /(\/\*+)(.*)(\*+\/)/g
-const str = fs.readFileSync('./test.css', 'utf8')
-const subst = `$1\n$2\n$3`
-const result = str.replace(regex, subst)
-console.log(result)
-```
 
 If `test.css` has the following contents
 
@@ -533,7 +534,7 @@ h2 {
 }
 ```
 
-Then the script will output
+Then the regex substitution will output
 
 ```css
 /**
@@ -558,8 +559,7 @@ h2 {
 }
 ```
 
-
-#### Standardize CSS Comment Openings
+#### Real-World Example - Standardize CSS Comment Openings
 
 Let's say we have a big CSS file with some single-line comments starting with `/*`, some with `/**`, and some with `/*****`.
 
@@ -580,18 +580,6 @@ To standardize the opening of each comment we can pass the following substituion
 ```
 /*$2$3
 ```
-
-Instead of writing a script to perform this operation, try doing it natively in your text editor of choice.  Nearly every text editor supports regex based find-and-replace, here are a few guides for popular editors.
-
-Regex in Sublime - http://docs.sublimetext.info/en/latest/search_and_replace/search_and_replace_overview.html#using-regular-expressions-in-sublime-text
-
-Regex in Vim - http://vimregex.com/#backreferences
-
-Regex in VSCode - https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options
-
-Regex in emacs - https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html
-
-Try out the above substitution on the following file contents.
 
 ```css
 /** Double Asterisk Comment */
@@ -628,10 +616,9 @@ h2 {
 }
 ```
 
+## URL Matching
 
-#### 5 - URL Matching
-
-##### Match Any URL
+Here's a useful regex expression to match any valid URL link.
 
 // https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
 (https?:\/\/)(www\.)?(?<domain>[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6})(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?
@@ -642,11 +629,13 @@ h2 {
 - `\.[a-z]{2,6})` - Match a domain extension extension (i.e. ".com" or ".org")
 - `(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?` - Match URL path (`/posts`), query string (`?limit=1`), and file extension (`.html`), all optional.
 
-###### Named capture groups
+#### Named capture groups
 
-You'll notice here that some of the capture groups now begins with a `?<name>`identifier.  This is the syntax for a *named capture group*, which makes the data extraction easier and more clear.
+You'll notice here that some of the capture groups now begin with a `?<name>`identifier.  This is the syntax for a *named capture group*, which makes the data extraction easier and more clear.
 
-For instance, here's how we could extract the domain of each URL from a raw webpage HTML string using Python.
+#### Real-World Example - Parse Domain Names From URLs on Webpage
+
+Here's how we could use named capture groups to extract the domain of each URL from a raw webpage HTML string using Python.
 
 ```python
 import re
@@ -660,9 +649,12 @@ for match in matches:
   print(match.group('domain'))
 ```
 
-### Command Line Usage
+## Command Line Usage
 
-#### Image File Matching
+A final very useful way to utilize regular expressions is in Linux bash commands.
+Regular expressions are supported by many Unix command line utilities, here we'll walk through how to use them with `grep` to find specific files, and with `sed` to replace text file content in-place.
+
+#### Real-World Example - Image File Matching With `grep`
 
 Now we'll define another basic regular expression, this time to match image files.
 
@@ -678,11 +670,6 @@ Now we'll define another basic regular expression, this time to match image file
 - `(png|jpg|jpeg|gif|webp)` - Matches common image file extensions
 - `$` - End of line
 
-So in summary, the above regular expression can be read as - `[start of line][one of more characers][period][case-insensitive image extension][end of line]`
-
-#### Usage With `grep`
-
-Regular expressions are supported by many Unix command line utilities.
 
 For instance, here's how you could list only the image files in your `Downloads` directory.
 
@@ -696,7 +683,7 @@ Here's a breakdown of this command -
 - `|` - Pipe the output to the next command
 - `grep -E` - Filter the input with regular expression
 
-#### Usage With `sed`
+#### Real-World Example - Email Substitution With `sed`
 
 Another good usage of regular expressions in bash commands could be redacting emails within a text file.
 
