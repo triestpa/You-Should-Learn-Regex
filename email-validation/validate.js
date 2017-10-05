@@ -4,8 +4,5 @@ function isValidEmail (input) {
   return result ? true : false
 }
 
-console.log(isValidEmail(`test.test@gmail.com`))
-console.log(isValidEmail(`test.test`))
-console.log(isValidEmail(`gmail.com`))
-console.log(isValidEmail(`this is a test@test.com`))
-console.log(isValidEmail(`test.test@gmail.comtest.test@gmail.com`))
+const tests = [`test.test@gmail.com`, `test.test`, `gmail.com`, `this is a test@test.com`, `test.test@gmail.comtest.test@gmail.com`]
+console.log(tests.map(isValidEmail))
