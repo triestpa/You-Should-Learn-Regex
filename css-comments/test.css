@@ -1,14 +1,16 @@
-/** Double Asterisk Comment */
+/* Single Line Comment */
 body {
   background-color: pink;
 }
 
-/* Single Asterisk Comment */
+/*
+ Multiline Comment
+*/
 h1 {
   font-size: 2rem;
 }
 
-/***** Many Asterisk Comment */
+/* Another Single Line Comment */
 h2 {
   font-size: 1rem;
 }
