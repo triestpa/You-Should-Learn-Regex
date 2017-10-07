@@ -20,11 +20,8 @@ class FileRegexExample {
 			e.printStackTrace();
 		}
 
-    String testString = sb.toString();
-    String regex = "^[0-9]+$";
-    Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-    Matcher matcher = pattern.matcher(testString);
-
+    Pattern pattern = Pattern.compile("^[0-9]+$", Pattern.MULTILINE);
+    Matcher matcher = pattern.matcher(sb.toString());
     List<String> matchList = new ArrayList<String>();
     while (matcher.find()) {
       matchList.add(matcher.group());
