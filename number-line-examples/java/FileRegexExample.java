@@ -10,23 +10,18 @@ import java.util.stream.Stream;
 
 class FileRegexExample {
   public static void main(String[] args) {
-    StringBuilder sb = new StringBuilder();
-    try(Stream<String> stream = Files.lines(Paths.get("../test.txt"))) {
-      	stream.forEach((String line) -> {
-          sb.append(line);
-          sb.append(System.lineSeparator());
-        });
+    try {
+      String content = new String(Files.readAllBytes(Paths.get("../test.txt")));
+      Pattern pattern = Pattern.compile("^[0-9]+$", Pattern.MULTILINE);
+      Matcher matcher = pattern.matcher(content);
+      List<String> matchList = new ArrayList<String>();
+      while (matcher.find()) {
+        matchList.add(matcher.group());
+      }
+
+      System.out.println(matchList);
     } catch (IOException e) {
 			e.printStackTrace();
 		}
-
-    Pattern pattern = Pattern.compile("^[0-9]+$", Pattern.MULTILINE);
-    Matcher matcher = pattern.matcher(sb.toString());
-    List<String> matchList = new ArrayList<String>();
-    while (matcher.find()) {
-      matchList.add(matcher.group());
-    }
-
-    System.out.println(matchList);
   }
 }
