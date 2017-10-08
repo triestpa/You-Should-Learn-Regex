@@ -58,23 +58,21 @@ abcde
 
 Our regular expression should match three lines - 1234, 5362, and 1.
 
-We'll now quickly go through how to perform this regex search in some of the most popular programming languages - Javascript, Python, Ruby, Haskell, Perl, PHP, Go, Java, Scala, Kotlin, Swift, Rust, C++, and Bash.
+The great thing about this expression (and regular expressions in general) is that it can be used in *virtually any programing language*.
 
-For instance, here's the implementation in Javascript, with Node.js, reading the input data from a local file - `test.txt`.
+To demonstrate we'll now quickly go through how to perform this simple regex search (+ a local text file read) in 15 of the most used programming languages - Javascript/Typescript, Python, Ruby, Haskell, Perl, PHP, Go, R, Java, Scala, Kotlin, Swift, Rust, C#, C++, and Bash.
 
-#### Javascript
+Each script will read the test file, search it using our regex, and print the result(`'1234', '5362', '1'`) to the console.
+
+#### Javascript / Node.js / Typescript
 ```javascript
 const fs = require('fs')
-
 const testFile = fs.readFileSync('test.txt', 'utf8')
 const regex = /^([0-9]+)$/gm
 let results = testFile.match(regex)
 console.log(results)
 ```
 
-The result will be `[ '1234', '5362', '1' ]`.
-
-Here is the same logic in Python
 
 #### Python
 ```python
@@ -85,6 +83,13 @@ with open('test.txt', 'r') as f:
   regex = re.compile(r'^([0-9]+)$', re.MULTILINE)
   result = regex.findall(test_string)
   print(result)
+```
+
+#### R
+```r
+fileLines <- readLines("test.txt")
+results <- grep("^[0-9]+$", fileLines, value = TRUE)
+print (results)
 ```
 
 #### Ruby
@@ -158,30 +163,22 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 class FileRegexExample {
   public static void main(String[] args) {
-    StringBuilder sb = new StringBuilder();
-    try(Stream<String> stream = Files.lines(Paths.get("../test.txt"))) {
-      	stream.forEach((String line) -> {
-          sb.append(line);
-          sb.append(System.lineSeparator());
-        });
+    try {
+      String content = new String(Files.readAllBytes(Paths.get("../test.txt")));
+      Pattern pattern = Pattern.compile("^[0-9]+$", Pattern.MULTILINE);
+      Matcher matcher = pattern.matcher(content);
+      ArrayList<String> matchList = new ArrayList<String>();
+      while (matcher.find()) {
+        matchList.add(matcher.group());
+      }
+
+      System.out.println(matchList);
     } catch (IOException e) {
 			e.printStackTrace();
 		}
-
-    Pattern pattern = Pattern.compile("^[0-9]+$", Pattern.MULTILINE);
-    Matcher matcher = pattern.matcher(sb.toString());
-    List<String> matchList = new ArrayList<String>();
-    while (matcher.find()) {
-      matchList.add(matcher.group());
-    }
-
-    System.out.println(matchList);
   }
 }
 ```
@@ -215,8 +212,17 @@ object FileRegexExample {
 ```
 
 #### Swift
-```
-
+```swift
+import Cocoa
+do {
+    let fileText = try String(contentsOfFile: "test.txt", encoding: String.Encoding.utf8)
+    let regex = try! NSRegularExpression(pattern: "^[0-9]+$", options: [ .anchorsMatchLines ])
+    let results = regex.matches(in: fileText, options: [], range: NSRange(location: 0, length: fileText.characters.count))
+    let matches = results.map { String(fileText[Range($0.range, in: fileText)!]) }
+    print(matches)
+} catch {
+    print(error)
+}
 ```
 
 #### Rust
@@ -244,8 +250,33 @@ fn main() {
     println!("{}", &test_str[mat.start()..mat.end()]);
   }
 }
-
 ```
+
+#### C#
+```cs
+using System;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Linq;
+
+namespace RegexExample
+{
+    class FileRegexExample
+    {
+        static void Main()
+        {
+            string text = File.ReadAllText(@"../test.txt", Encoding.UTF8);
+            Console.WriteLine(text);
+            Regex regex = new Regex("^[0-9]+$", RegexOptions.Multiline);
+            MatchCollection mc = regex.Matches(text);
+            var matches = mc.OfType<Match>().Select(m => m.Value).ToArray();
+            Console.WriteLine(string.Join(" ", matches));
+        }
+    }
+}
+```
+
 #### C++
 ```c++
 #include <string>
@@ -278,9 +309,8 @@ int main () {
 cat test.txt | grep -E "^[0-9]+$"
 ```
 
-Using the above code, it should be relatively easy to translate the regex script to any other language, such as Typescript/Coffeescript/Elm/Clojurescript (all of which use the Javascript regex engine), Kotlin/Scala/Clojure (which use the Java regex engine), or to C# and Swift (which will likely look most similar to a the Java/Javascript/C++ examples above).
 
-Writing out the same regex operation in twelve languages was a fun exercise, but we'll be mostly sticking with Javascript and Python for the rest of the tutorial, since I think that these languages tend to yield be the clearest, simplest implementations.
+Writing out the same regex operation in fifteen languages was a fun exercise, but we'll be mostly sticking with Javascript and Python for the rest of the tutorial, since these languages (in my opinion) tend to yield the clearest, most readable implementations.
 
 ## Email Validation
 
@@ -429,6 +459,7 @@ console.log(`The current minute is ${result[2]}`)
 > The zeroth capture group is always the entire matched expression.
 
 The above script will output -
+
 ```
 The current hour is 16
 The current minute is 24
