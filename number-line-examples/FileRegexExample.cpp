@@ -6,7 +6,7 @@
 using namespace std;
 
 int main () {
-  ifstream t("../test.txt");
+  ifstream t("./test.txt");
   stringstream buffer;
   buffer << t.rdbuf();
   string testString = buffer.str();

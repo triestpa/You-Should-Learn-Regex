@@ -8,7 +8,7 @@ import java.util.ArrayList;
 class FileRegexExample {
   public static void main(String[] args) {
     try {
-      String content = new String(Files.readAllBytes(Paths.get("../test.txt")));
+      String content = new String(Files.readAllBytes(Paths.get("test.txt")));
       Pattern pattern = Pattern.compile("^[0-9]+$", Pattern.MULTILINE);
       Matcher matcher = pattern.matcher(content);
       ArrayList<String> matchList = new ArrayList<String>();
