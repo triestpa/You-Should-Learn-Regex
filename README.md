@@ -12,7 +12,7 @@ The complexity of the specialized regex syntax, however, can make these expressi
 
 If this looks complex to you now, don't worry, by the time we finish the tutorial understanding this expression will be trivial.
 
-### Learn once, write anywhere
+#### Learn once, write anywhere
 
 Regular expressions can be used in virtually any programming language.  A knowledge of regex is very useful for validating user input, interacting with the Unix shell, searching/refactoring code in your favorite text editor, performing database text searches, and lots more.
 
@@ -22,7 +22,7 @@ In this tutorial, I'll attempt to give an provide an approachable introduction t
 
 The source code for the examples in this tutorial can be found at the Github repository here - [https://github.com/triestpa/You-Should-Learn-Rege]()
 
-## Match Any Number Line
+## 0 - Match Any Number Line
 
 We'll start with a very simple example - Match any line that only contains numbers.
 
@@ -63,7 +63,7 @@ abcde
 Each script will read the `test.txt` file, search it using our regular expression, and print the result (`'1234', '5362', '1'`) to the console.
 
 ### Language Examples
-#### Javascript / Node.js / Typescript
+#### 0.0 - Javascript / Node.js / Typescript
 ```javascript
 const fs = require('fs')
 const testFile = fs.readFileSync('test.txt', 'utf8')
@@ -74,7 +74,7 @@ console.log(results)
 
 <br>
 
-#### Python
+#### 0.1 - Python
 ```python
 import re
 
@@ -87,7 +87,7 @@ with open('test.txt', 'r') as f:
 
 <br>
 
-#### R
+#### 0.2 - R
 ```r
 fileLines <- readLines("test.txt")
 results <- grep("^[0-9]+$", fileLines, value = TRUE)
@@ -96,7 +96,7 @@ print (results)
 
 <br>
 
-#### Ruby
+#### 0.3 - Ruby
 ```ruby
 File.open("test.txt", "rb") do |f|
     test_str = f.read
@@ -109,7 +109,7 @@ end
 
 <br>
 
-#### Haskell
+#### 0.4 - Haskell
 ```haskell
 import Text.Regex.PCRE
 
@@ -121,7 +121,7 @@ main = do
 
 <br>
 
-#### Perl
+#### 0.5 - Perl
 ```perl
 open my $fh, '<', 'test.txt' or die "Unable to open file $!";
 read $fh, my $file_content, -s $fh;
@@ -133,7 +133,7 @@ print join(',', @matches);
 
 <br>
 
-#### PHP
+#### 0.6 - PHP
 ```php
 <?php
 $myfile = fopen("test.txt", "r") or die("Unable to open file.");
@@ -147,7 +147,7 @@ var_dump($matches);
 
 <br>
 
-#### Go
+#### 0.7 - Go
 ```go
 package main
 
@@ -169,7 +169,7 @@ func main() {
 
 <br>
 
-#### Java
+#### 0.8 - Java
 ```java
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -200,7 +200,7 @@ class FileRegexExample {
 
 <br>
 
-#### Kotlin
+#### 0.9 - Kotlin
 ```kotlin
 import java.io.File
 import kotlin.text.Regex
@@ -215,7 +215,7 @@ println(results)
 
 <br>
 
-#### Scala
+#### 0.10 - Scala
 ```scala
 import scala.io.Source
 import scala.util.matching.Regex
@@ -232,7 +232,7 @@ object FileRegexExample {
 
 <br>
 
-#### Swift
+#### 0.11 - Swift
 ```swift
 import Cocoa
 do {
@@ -248,7 +248,7 @@ do {
 
 <br>
 
-#### Rust
+#### 0.12 - Rust
 ```rust
 extern crate regex;
 use std::fs::File;
@@ -277,7 +277,7 @@ fn main() {
 
 <br>
 
-#### C#
+#### 0.13 - C#
 ```c#
 using System;
 using System.IO;
@@ -303,7 +303,7 @@ namespace RegexExample
 
 <br>
 
-#### C++
+#### 0.14 - C++
 ```c++
 #include <string>
 #include <fstream>
@@ -331,7 +331,7 @@ int main () {
 
 <br>
 
-#### Bash
+#### 0.15 - Bash
 ```bash
 #! bin/bash
 cat test.txt | grep -E "^[0-9]+$"
@@ -341,7 +341,7 @@ cat test.txt | grep -E "^[0-9]+$"
 
 Writing out the same operation in sixteen languages is a fun exercise, but we'll be mostly sticking with Javascript and Python (along with a bit of Bash at the end) for the rest of the tutorial since these languages (in my opinion) tend to yield the clearest, most readable implementations.
 
-## Year Matching
+## 1 - Year Matching
 
 Let's go through another simple example - matching any valid year in the 20th or 21st centuries.
 
@@ -358,7 +358,7 @@ We're starting and ending this regex with `\b` instead of `^` and `$`.  `\b` rep
 
 > Note that `\b` differs from `\s`, the code for a whitespace character.  `\b` searches for a place where a word character is not followed or preceded by another word-character, so **it is searching for the absence of a word character**, whereas `\s` is searching explicitly for a space character.  `\b` is especially appropriate for cases where we want to match a specific sequence/word, but not the whitespace before or after it.
 
-#### Real-World Example - Count Year Occurrences
+#### 1.0 - Real-World Example - Count Year Occurrences
 
 We can use this expression in a Python script to find how many times each year in the 20th or 21st century is mentioned in a historical Wikipedia article.
 
@@ -397,7 +397,7 @@ The above script will print each year, along the number of times it is mentioned
 
 <br>
 
-## Time Matching
+## 2 - Time Matching
 
 Now we'll define a regex expression to match any time in the 24-hour format (`MM:HH`, such as 16:59).
 
@@ -416,13 +416,13 @@ Now we'll define a regex expression to match any time in the 24-hour format (`MM
 - `\d` - Any number between 0 and 9 (same as `[0-9]`)
 - `\b` - Word boundary
 
-#### Capture Groups
+#### 2.0 - Capture Groups
 
 You might have noticed something new in the above pattern - we're wrapping the hour and minute capture segments in parenthesis `( ... )`.  This allows us to define each part of the pattern as a **capture group**.
 
 Capture groups allow us individually extract, transform, and rearrange pieces of each matched pattern.
 
-#### Real-World Example - Time Parsing
+#### 2.1 - Real-World Example - Time Parsing
 
 For example, in the above 24-hour pattern, we've defined two capture groups - one for the hour and one for the minute.
 
@@ -451,7 +451,7 @@ The current minute is 24
 
 As an extra exercise, you could try modifying this script to convert 24-hour times to 12-hour (am/pm) times.
 
-## Date Matching
+## 3 - Date Matching
 
 Now let's match a `DAY/MONTH/YEAR` style date pattern.
 
@@ -469,13 +469,13 @@ This one is a bit longer, but it should look pretty similar to what we've covere
 
 The only new concept here is that we're using `\2` to match the second capture group, which is the divider (`/` or `-`).  This enables us to avoid repeating our pattern matching specification, and will also require that the dividers are consistent (if the first divider is `/`, then the second must be as well).
 
-#### Capture Group Substitution
+#### 3.0 - Capture Group Substitution
 
 Using capture groups, we can dynamically reorganize and transform our string input.
 
 The standard way to refer to capture groups is to use the `$` or `\` symbol, along with the index of the capture group (remember that the capture group element is the full captured text).
 
-#### Real-World Example - Date Format Transformation
+#### 3.1 - Real-World Example - Date Format Transformation
 
 Let's imagine that we were tasked with converting a collection of documents from using the international date format style (`DAY/MONTH/YEAR`) to the American style (`MONTH/DAY/YEAR`)
 
@@ -488,8 +488,6 @@ Let's break our capture groups down.
 - $4 - Fourth capture group: the year digits.
 
 Our replacement pattern (`\3\2\1\2\4`) will simply swap the month and day content in the expression.
-
-#### Javascript
 
 Here's how we could do this transformation in Javascript -
 
@@ -518,7 +516,7 @@ print(result)
 
 <br>
 
-## Email Validation
+## 4 - Email Validation
 
 Regular expressions can also be useful for input validation.
 
@@ -538,7 +536,7 @@ Above is an (overly simple) regular expression to match an email address.
 - `\w{2,6}` - Match any word character (letter, digit, or underscore), 2-6 times
 - `$` - End of input
 
-#### Real-World Example - Validate Email
+#### 4.0 - Real-World Example - Validate Email
 Let's say we wanted to create a simple Javascript function to check if an input is a valid email.
 
 ```javascript
@@ -563,7 +561,7 @@ console.log(tests.map(isValidEmail))
 
 The output of this script should be `[ true, false, false, false, false, false ]`.
 
-#### Full Email Regex
+#### 4.1 - Full Email Regex
 
 This is a very simple example which ignores lots of email-validity edge cases.  I really don't recommend using the above expression in your applications; it would be best to instead use a reputable email-validation library or to track down a more complete email validation regex.
 
@@ -575,7 +573,7 @@ For instance, here's a more advanced expression from [emailregex.com](http://ema
 
 Yeah, we're not going to walk through that one.
 
-## Code Comment Pattern Matching
+## 5 - Code Comment Pattern Matching
 
 One of the most useful ad-hoc uses of regular expressions can be code refactors.  Most code editors support regex-based find/replace operations.  A well-formed regex substitution can turn a tedious 30-minute busywork job into a beautiful single-expression piece of regex refactor wizardry.
 
@@ -592,7 +590,7 @@ Regex Substitution in VSCode - [https://code.visualstudio.com/docs/editor/codeba
 Regex Substitution in Emacs - [https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html]()
 
 
-#### Extracting Single Line CSS Comments
+#### 5.0 - Extracting Single Line CSS Comments
 
 What if we wanted to find all of the single-line comments within a CSS file?
 
@@ -612,7 +610,7 @@ To capture any *single-line* CSS comment, we can use the following expression.
 
 Note that we have defined three capture groups in the above expression: the opening characters (`(\/\*+)`), the comment contents (`(.*)`), and the closing characters (`(\*+\/)`).
 
-#### Real-World Example - Convert Single-Line Comments to Multi-Line Comments
+#### 5.1 - Real-World Example - Convert Single-Line Comments to Multi-Line Comments
 
 We could use this expression to turn each single-line comment into a multi-line comment by performing the following substitution.
 
@@ -672,7 +670,7 @@ h2 {
 
 <br>
 
-#### Real-World Example - Standardize CSS Comment Openings
+#### 5.2 - Real-World Example - Standardize CSS Comment Openings
 
 Let's say we have a big messy CSS file that was written by a few different people.  In this file, some of the comments start with `/*`, some with `/**`, and some with `/*****`.
 
@@ -734,7 +732,7 @@ h2 {
 
 <br>
 
-## URL Matching
+## 6 - URL Matching
 
 Another highly useful regex recipe is matching URLs in text.
 
@@ -750,11 +748,11 @@ Here an example URL matching expression from [Stack Overflow](https://stackoverf
 - `\.[a-z]{2,6})` - Match a domain extension extension (i.e. ".com" or ".org")
 - `(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?` - Match URL path (`/posts`), query string (`?limit=1`), and file extension (`.html`), all optional.
 
-#### Named capture groups
+#### 6.0 - Named capture groups
 
 You'll notice here that some of the capture groups now begin with a `?<name>` identifier.  This is the syntax for a *named capture group*, which makes the data extraction easier and more clear.
 
-#### Real-World Example - Parse Domain Names From URLs on A Web Page
+#### 6.1 - Real-World Example - Parse Domain Names From URLs on A Web Page
 
 Here's how we could use named capture groups to extract the domain name of each URL in a web page using Python.
 
@@ -790,11 +788,11 @@ wordpress.com
 
 <br>
 
-## Command Line Usage
+## 7 - Command Line Usage
 
 Regular expressions are also supported by many Unix command line utilities!  We'll walk through how to use them with `grep` to find specific files, and with `sed` to replace text file content in-place.
 
-#### Real-World Example - Image File Matching With `grep`
+#### 7.0 - Real-World Example - Image File Matching With `grep`
 
 We'll define another basic regular expression, this time to match image files.
 
@@ -820,7 +818,7 @@ ls ~/Downloads | grep -E '^.+\.(?i)(png|jpg|jpeg|gif|webp)$'
 - `|` - Pipe the output to the next command
 - `grep -E` - Filter the input with regular expression
 
-#### Real-World Example - Email Substitution With `sed`
+#### 7.1 - Real-World Example - Email Substitution With `sed`
 
 Another good use of regular expressions in bash commands could be redacting emails within a text file.
 
@@ -856,11 +854,11 @@ My email is {redacted}
 
 > Note - While the above command should work on most Linux distributions, macOS uses the BSD implementation is `sed`, which is more limited in its supported regex syntax.  To use `sed` on macOS with decent regex support, I would recommend installing the GNU implementation of `sed` with `brew install gnu-sed`, and then using `gsed` from the command line instead of `sed`.
 
-## When Not To Use Regex
+## 8 - When Not To Use Regex
 
 Ok, so clearly regex is a powerful, flexible tool.  Are there times when you should avoid writing your own regex expressions? *Yes!*
 
-#### Language Parsing
+#### 8.0 - Language Parsing
 
 Parsing structured languages, from English to Java to JSON, can be a real pain using regex expressions.
 
@@ -868,7 +866,7 @@ Writing your own regex expression for this purpose is likely to be an exercise i
 
 Battle-hardened parsers are available for virtually all machine-readable languages, and [NLP tools](http://www.nltk.org/) are available for human languages - I strongly recommend that you use one of them instead of attempting to write your own.
 
-#### Security-Critical Input Filtering and Blacklists
+#### 8.1 - Security-Critical Input Filtering and Blacklists
 
 It may seem tempting to use regular expressions to filter user input (such as from a web form), to prevent hackers from sending malicious commands (such as SQL injections) to your application.
 
@@ -876,11 +874,11 @@ Using a custom regex expression here is unwise since it is very difficult to cov
 
 This is another instance where I would strongly recommend using the well-tested libraries and/or services, along with [the use of whitelists instead of blacklists](https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet), in order to protect your application from malicious inputs.
 
-#### Performance Intensive Applications
+#### 8.2 - Performance Intensive Applications
 
 Regex matching speeds can range from not-very-fast to extremely slow, depending on [how well the expression is written](https://www.loggly.com/blog/regexes-the-bad-better-best/).  This is fine for most use cases, especially if the text being matched is very short (such as an email address form).  For high-performance server applications, however, regex can be a performance bottleneck, especially if expression is poorly written or the text being searched is long.
 
-#### For Problems That Don't Require Regex
+#### 8.3 - For Problems That Don't Require Regex
 
 Regex is an incredibly useful tool, but that doesn't mean you should use it everywhere.
 
