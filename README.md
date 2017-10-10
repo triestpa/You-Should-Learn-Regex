@@ -1,4 +1,4 @@
-Regular expressions (regex): one of the most powerful, widely applicable, and sometimes intimidating techniques in software engineering.  From validating email addresses to performing complex code refactors, regular expressions have a wide range of uses and are an essential entry in any software engineers toolbox.
+Regular expressions (regex): one of the most powerful, widely applicable, and sometimes intimidating techniques in software engineering.  From validating email addresses to performing complex code refactors, regular expressions have a wide range of uses and are an essential entry in any software engineer's toolbox.
 
 #### What is a regular expression?
 
@@ -10,11 +10,11 @@ The complexity of the specialized regex syntax, however, can make these expressi
 \b([01]?[0-9]|2[0-3]):([0-5]\d)\b
 ```
 
-If this looks complex to you now, don't worry, by the time we finish this tutorial understanding this expression will be trivial.
+If this looks complex to you now, don't worry, by the time we finish the tutorial understanding this expression will be trivial.
 
 ### Learn once, write anywhere
 
-Regular expressions can be used in virtually any programming language.  A knowledge of regex is very useful for validating user input, interacting with the Unix shell,  quickly searching/refactoring code in your favorite text editor, performing database text searches, and lots more.
+Regular expressions can be used in virtually any programming language.  A knowledge of regex is very useful for validating user input, interacting with the Unix shell, searching/refactoring code in your favorite text editor, performing database text searches, and lots more.
 
 In this tutorial, I'll attempt to give an provide an approachable introduction to regex syntax and usage in a variety of scenarios, languages, and environments.
 
@@ -46,7 +46,7 @@ Pretty simple right?
 
 The great thing about this expression (and regular expressions in general) is that it can be used, without much modification, **in any programing language**.
 
-To demonstrate we'll now quickly go through how to perform this simple regex search on a local text using 15 of the most popular programming languages.
+To demonstrate we'll now quickly go through how to perform this simple regex search on a local text using 16 of the most popular programming languages.
 
 We can use the following input file (`test.txt`) as an example.
 ```text
@@ -339,7 +339,7 @@ cat test.txt | grep -E "^[0-9]+$"
 
 <br>
 
-Writing out the same operation in fifteen languages is a fun exercise, but we'll be mostly sticking with Javascript and Python for the rest of the tutorial since these languages (in my opinion) tend to yield the clearest, most readable implementations.
+Writing out the same operation in sixteen languages is a fun exercise, but we'll be mostly sticking with Javascript and Python (along with a bit of Bash at the end) for the rest of the tutorial since these languages (in my opinion) tend to yield the clearest, most readable implementations.
 
 ## Year Matching
 
