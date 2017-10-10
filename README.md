@@ -1,4 +1,4 @@
-Regular expressions (regex) are some of the most powerful, widely applicable, and sometimes intimidating techniques in software engineering.  From validating email addresses to performing complex code refactors, regular expressions have a wide range of uses and are an essential entry in any software engineers toolbox.
+Regular expressions (regex): one of the most powerful, widely applicable, and sometimes intimidating techniques in software engineering.  From validating email addresses to performing complex code refactors, regular expressions have a wide range of uses and are an essential entry in any software engineers toolbox.
 
 #### What is a regular expression?
 
@@ -6,11 +6,11 @@ A regular expression (or regex, or regexp) is a way to describe complex search p
 
 The complexity of the specialized regex syntax, however, can make these expressions somewhat inaccessible.  For instance, here is a basic regex that describes any time in the 24-hour HH/MM format.
 
-```bash
+```text
 \b([01]?[0-9]|2[0-3]):([0-5]\d)\b
 ```
 
-If this looks complex to you now, don't worry, by the time we finish this tutorial understanding the above example will be trivial.
+If this looks complex to you now, don't worry, by the time we finish this tutorial understanding this expression will be trivial.
 
 ### Learn once, write anywhere
 
@@ -26,7 +26,7 @@ The source code for the examples in this tutorial can be found at the Github rep
 
 We'll start with a very simple example - Match any line that only contains numbers.
 
-```bash
+```text
 ^[0-9]+$
 ```
 
@@ -49,7 +49,7 @@ The great thing about this expression (and regular expressions in general) is th
 To demonstrate we'll now quickly go through how to perform this simple regex search on a local text using 15 of the most popular programming languages.
 
 We can use the following input file (`test.txt`) as an example.
-```bash
+```text
 1234
 abcde
 12db2
@@ -60,7 +60,7 @@ abcde
 
 <br>
 
-Each script will read the 1test" file, search it using our regex, and print the result (`'1234', '5362', '1'`) to the console.
+Each script will read the `test.txt` file, search it using our regular expression, and print the result (`'1234', '5362', '1'`) to the console.
 
 ### Language Examples
 #### Javascript / Node.js / Typescript
@@ -207,7 +207,7 @@ import kotlin.text.Regex
 import kotlin.text.RegexOption
 
 val file = File("test.txt")
-var content:String = file.readText()
+val content:String = file.readText()
 val regex = Regex("^[0-9]+$", RegexOption.MULTILINE)
 val results = regex.findAll(content).map{ result -> result.value }.toList()
 println(results)
@@ -292,7 +292,6 @@ namespace RegexExample
         static void Main()
         {
             string text = File.ReadAllText(@"./test.txt", Encoding.UTF8);
-            Console.WriteLine(text);
             Regex regex = new Regex("^[0-9]+$", RegexOptions.Multiline);
             MatchCollection mc = regex.Matches(text);
             var matches = mc.OfType<Match>().Select(m => m.Value).ToArray();
@@ -340,13 +339,13 @@ cat test.txt | grep -E "^[0-9]+$"
 
 <br>
 
-Writing out the same regex operation in fifteen languages was a fun exercise, but we'll be mostly sticking with Javascript and Python for the rest of the tutorial since these languages (in my opinion) tend to yield the clearest, most readable implementations.
+Writing out the same operation in fifteen languages is a fun exercise, but we'll be mostly sticking with Javascript and Python for the rest of the tutorial since these languages (in my opinion) tend to yield the clearest, most readable implementations.
 
 ## Year Matching
 
 Let's go through another simple example - matching any valid year in the 20th or 21st centuries.
 
-```bash
+```text
 \b(19|20)\d{2}\b
 ```
 
@@ -357,7 +356,7 @@ We're starting and ending this regex with `\b` instead of `^` and `$`.  `\b` rep
 - `\d{2}` - Two digits, same as `[0-9]{2}`
 - `\b` - Word boundary
 
-> Note that `\b` differs from `\s`, the code for a whitespace character.  `\b` searches for a place where a word character is not followed or preceded by another word-character, so it is searching for the *absence* of a word character, whereas `\s` is searching explicitly for a space character.  `\b` is especially appropriate for cases where we want to match a specific sequence/word, but not the whitespace before or after it.
+> Note that `\b` differs from `\s`, the code for a whitespace character.  `\b` searches for a place where a word character is not followed or preceded by another word-character, so **it is searching for the absence of a word character**, whereas `\s` is searching explicitly for a space character.  `\b` is especially appropriate for cases where we want to match a specific sequence/word, but not the whitespace before or after it.
 
 #### Real-World Example - Count Year Occurrences
 
@@ -384,8 +383,10 @@ for year in sorted(year_counts, key=year_counts.get, reverse=True):
   print(year, year_counts[year])
 ```
 
+<br>
+
 The above script will print each year, along the number of times it is mentioned.
-```bash
+```text
 1941 137
 1943 80
 1940 76
@@ -400,7 +401,7 @@ The above script will print each year, along the number of times it is mentioned
 
 Now we'll define a regex expression to match any time in the 24-hour format (`MM:HH`, such as 16:59).
 
-```bash
+```text
 \b([01]?[0-9]|2[0-3]):([0-5]\d)\b
 ```
 
@@ -441,7 +442,7 @@ console.log(`The current minute is ${result[2]}`)
 
 The above script will produce the following output.
 
-```bash
+```text
 The current hour is 16
 The current minute is 24
 ```
@@ -454,7 +455,7 @@ As an extra exercise, you could try modifying this script to convert 24-hour tim
 
 Now let's match a `DAY/MONTH/YEAR` style date pattern.
 
-```bash
+```text
 \b(0?[1-9]|[12]\d|3[01])([\/\-])(0?[1-9]|1[012])\2(\d{4})
 ```
 
@@ -466,13 +467,13 @@ This one is a bit longer, but it should look pretty similar to what we've covere
 - `\2` - Matches the second capture group (the seperator)
 - `\d{4}` - Match any 4 digit number (0000 - 9999)
 
-The only new concept here is that we're using `\2` to match the second capture group, which is the divider (`/` or `-`).  This enables us to avoid repeating our pattern matching specification, and will also require that the dividers are consistent (if the first divider is a "/", then the second must be as well).
+The only new concept here is that we're using `\2` to match the second capture group, which is the divider (`/` or `-`).  This enables us to avoid repeating our pattern matching specification, and will also require that the dividers are consistent (if the first divider is `/`, then the second must be as well).
 
 #### Capture Group Substitution
 
 Using capture groups, we can dynamically reorganize and transform our string input.
 
-The standard way to refer to capture groups is to use the `$` or `\` symbol, along with the index of the capture group (remember that the zeroth element is the full captured text).
+The standard way to refer to capture groups is to use the `$` or `\` symbol, along with the index of the capture group (remember that the capture group element is the full captured text).
 
 #### Real-World Example - Date Format Transformation
 
@@ -521,7 +522,7 @@ print(result)
 
 Regular expressions can also be useful for input validation.
 
-```bash
+```text
 ^.[^@\s]+@.[^@\s]+\.\w{2,6}$
 ```
 
@@ -544,6 +545,8 @@ Let's say we wanted to create a simple Javascript function to check if an input 
 function isValidEmail (input) {
   const regex = /^.[^@\s]+@.[^@\s]+\.\w{2,6}$/g;
   const result = regex.exec(input)
+
+  // If result is null, no match was found
   return result ? true : false
 }
 
@@ -574,7 +577,7 @@ Yeah, we're not going to walk through that one.
 
 ## Code Comment Pattern Matching
 
-One of the most useful ad-hoc uses of regular expressions can be efficiently refactoring code.  Most code editors support regex-based find/replace operations.  A well-formed regex substitution can turn a tedious 30-minute busywork job into a beautiful single-expression piece of regex refactor wizardry.
+One of the most useful ad-hoc uses of regular expressions can be code refactors.  Most code editors support regex-based find/replace operations.  A well-formed regex substitution can turn a tedious 30-minute busywork job into a beautiful single-expression piece of regex refactor wizardry.
 
 Instead of writing scripts to perform these operations, try doing them natively in your text editor of choice.  Nearly every text editor supports regex based find-and-replace.
 
@@ -586,7 +589,7 @@ Regex Substitution in Vim - [http://vimregex.com/#backreferences]()
 
 Regex Substitution in VSCode - [https://code.visualstudio.com/docs/editor/codebasics#_advanced-search-options]()
 
-Regex Substitution in Emac - [https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html]()
+Regex Substitution in Emacs - [https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexp-Replace.html]()
 
 
 #### Extracting Single Line CSS Comments
@@ -597,9 +600,10 @@ CSS comments come in the form `/* Comment Here */`
 
 To capture any *single-line* CSS comment, we can use the following expression.
 
-```bash
+```text
 (\/\*+)(.*)(\*+\/)
 ```
+
 - `\/` - Match `/` symbol (we have escape the `/` character)
 - `\*+` - Match one or more `*` symbols (again, we have to escape the `*` character with `\`).
 - `(.*)` - Match any character (besides a newline `\n`), any number of times
@@ -612,7 +616,7 @@ Note that we have defined three capture groups in the above expression: the open
 
 We could use this expression to turn each single-line comment into a multi-line comment by performing the following substitution.
 
-```bash
+```text
 $1\n$2\n$3
 ```
 
@@ -639,7 +643,9 @@ h2 {
 }
 ```
 
-The result of the substitution will be the same file, but with each single-line comment converted to a multi-line comment.
+<br>
+
+The substitution will yield the same file, but with each single-line comment converted to a multi-line comment.
 
 ```css
 /*
@@ -674,7 +680,7 @@ Let's write a regex substitution to standardize all of the single-line CSS comme
 
 In order to do this, we'll extend our expression to only match comments with *two or more* starting asterisks.
 
-```bash
+```text
 (\/\*{2,})(.*)(\*+\/)
 ```
 
@@ -708,7 +714,7 @@ h2 {
 
 <br>
 
-The output will be -
+The result will be the same file with standardized comment openings.
 ```css
 /* Double Asterisk Comment */
 body {
@@ -734,7 +740,7 @@ Another highly useful regex recipe is matching URLs in text.
 
 Here an example URL matching expression from [Stack Overflow](https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url).
 
-```bash
+```text
 (https?:\/\/)(www\.)?(?<domain>[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6})(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?
 ```
 
@@ -767,7 +773,7 @@ for match in matches:
 <br>
 
 The script will print out each domain name it finds in the raw web page HTML content.
-```bash
+```text
 ...
 facebook.com
 twitter.com
@@ -792,7 +798,7 @@ Regular expressions are also supported by many Unix command line utilities!  We'
 
 We'll define another basic regular expression, this time to match image files.
 
-```bash
+```text
 ^.+\.(?i)(png|jpg|jpeg|gif|webp)$
 ```
 
@@ -862,13 +868,17 @@ Writing your own regex expression for this purpose is likely to be an exercise i
 
 Battle-hardened parsers are available for virtually all machine-readable languages, and [NLP tools](http://www.nltk.org/) are available for human languages - I strongly recommend that you use one of them instead of attempting to write your own.
 
-#### High-Security Use Cases
+#### Security-Critical Input Filtering and Blacklists
 
 It may seem tempting to use regular expressions to filter user input (such as from a web form), to prevent hackers from sending malicious commands (such as SQL injections) to your application.
 
 Using a custom regex expression here is unwise since it is very difficult to cover every potential attack vector or malicious command.  For instance, hackers can use [alternative character encodings to get around naively programmed input blacklist filters](http://www.cgisecurity.com/lib/URLEmbeddedAttacks.html).
 
 This is another instance where I would strongly recommend using the well-tested libraries and/or services, along with [the use of whitelists instead of blacklists](https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet), in order to protect your application from malicious inputs.
+
+#### Performance Intensive Applications
+
+Regex matching speeds can range from not-very-fast to extremely slow, depending on [how well the expression is written](https://www.loggly.com/blog/regexes-the-bad-better-best/).  This is fine for most use cases, especially if the text being matched is very short (such as an email address form).  For high-performance server applications, however, regex can be a performance bottleneck, especially if expression is poorly written or the text being searched is long.
 
 #### For Problems That Don't Require Regex
 
@@ -887,8 +897,8 @@ There still are lots of regex use cases that we have not covered.  For instance,
 We have also left lots of powerful regex syntax features uncovered, such as [lookahead, lookbehind](https://www.regular-expressions.info/lookaround.html), [atomic groups](https://www.regular-expressions.info/atomic.html), [recursion](https://www.regular-expressions.info/recurse.html), and [subroutines](https://www.regular-expressions.info/subroutine.html).
 
 To improve your regex skills and to learn more about these features, I would recommend the following resources.
-- Learn Regex The Easy Way (text reference resource) - https://github.com/zeeshanu/learn-regex
-- Regex101 (interactive regex composer and tester) - https://regex101.com/
+- Learn Regex The Easy Way - https://github.com/zeeshanu/learn-regex
+- Regex101 - https://regex101.com/
 - HackerRank Regex Course - https://www.hackerrank.com/domains/regex/re-introduction
 
 The source code for the examples in this tutorial can be found at the Github repository here - https://github.com/triestpa/You-Should-Learn-Regex
