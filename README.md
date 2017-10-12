@@ -1,4 +1,4 @@
-Regular expressions (regex): one of the most powerful, widely applicable, and sometimes intimidating techniques in software engineering.  From validating email addresses to performing complex code refactors, regular expressions have a wide range of uses and are an essential entry in any software engineer's toolbox.
+Regular Expressions (Regex): One of the most powerful, widely applicable, and sometimes intimidating techniques in software engineering.  From validating email addresses to performing complex code refactors, regular expressions have a wide range of uses and are an essential entry in any software engineer's toolbox.
 
 #### What is a regular expression?
 
@@ -18,9 +18,9 @@ Regular expressions can be used in virtually any programming language.  A knowle
 
 In this tutorial, I'll attempt to give an provide an approachable introduction to regex syntax and usage in a variety of scenarios, languages, and environments.
 
-[This web application](https://regex10-com) is my favorite tool for building, testing, and debugging regular expressions.  I highly recommend that you use it to test out the expressions that we'll cover in this tutorial.
+[This web application](https://regex101.com) is my favorite tool for building, testing, and debugging regular expressions.  I highly recommend that you use it to test out the expressions that we'll cover in this tutorial.
 
-The source code for the examples in this tutorial can be found at the Github repository here - [https://github.com/triestpa/You-Should-Learn-Rege]()
+The source code for the examples in this tutorial can be found at the Github repository here - [https://github.com/triestpa/You-Should-Learn-Regex](https://github.com/triestpa/You-Should-Learn-Regex)
 
 ## 0 - Match Any Number Line
 
@@ -34,7 +34,7 @@ We'll start with a very simple example - Match any line that only contains numbe
 
 Let's walk through this piece-by-piece.
 - `^` - Signifies the start of a line.
-- `[0-9]` - Matches any digit between 0 and -
+- `[0-9]` - Matches any digit between 0 and 9
 - `+` - Matches one or more instance of the preceding expression.
 - `$` - Signifies the end of the line.
 
@@ -46,7 +46,7 @@ Pretty simple right?
 
 The great thing about this expression (and regular expressions in general) is that it can be used, without much modification, **in any programing language**.
 
-To demonstrate we'll now quickly go through how to perform this simple regex search on a local text using 16 of the most popular programming languages.
+To demonstrate we'll now quickly go through how to perform this simple regex search on a text file using 16 of the most popular programming languages.
 
 We can use the following input file (`test.txt`) as an example.
 ```text
@@ -333,8 +333,8 @@ int main () {
 
 #### 0.15 - Bash
 ```bash
-#! bin/bash
-cat test.txt | grep -E "^[0-9]+$"
+#!bin/bash
+grep -E '^[0-9]+$' test.txt
 ```
 
 <br>
@@ -561,11 +561,13 @@ console.log(tests.map(isValidEmail))
 
 The output of this script should be `[ true, false, false, false, false, false ]`.
 
+> Note - In a real-world application, validating an email address using a regular expression is not enough for many situations, such as when a user signs up.  Once you have confirmed that the input text is an email address, you should always follow through with the standard practice of sending a confirmation/activation email.
+
 #### 4.1 - Full Email Regex
 
 This is a very simple example which ignores lots of email-validity edge cases.  I really don't recommend using the above expression in your applications; it would be best to instead use a reputable email-validation library or to track down a more complete email validation regex.
 
-For instance, here's a more advanced expression from [emailregex.com](http://emailregex.com/) which matches 99% of RFC 5322 compliant email addresses.
+For instance, here's a more advanced expression from (the aptly named) [emailregex.com](http://emailregex.com/) which matches 99% of [RFC 5322](https://www.ietf.org/rfc/rfc5322.txt) compliant email addresses.
 
 ```
 (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
@@ -742,15 +744,15 @@ Here an example URL matching expression from [Stack Overflow](https://stackoverf
 (https?:\/\/)(www\.)?(?<domain>[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6})(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?
 ```
 
-- `(https?:\/\/)?` - Match http or https (optional)
+- `(https?:\/\/)` - Match http(s)
 - `(www\.)?` - Optional "www" prefix
 - `(?<domain>[-a-zA-Z0-9@:%._\+~#=]{2,256}` - Match a valid domain name
 - `\.[a-z]{2,6})` - Match a domain extension extension (i.e. ".com" or ".org")
-- `(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?` - Match URL path (`/posts`), query string (`?limit=1`), and file extension (`.html`), all optional.
+- `(?<path>\/[-a-zA-Z0-9@:%_\/+.~#?&=]*)?` - Match URL path (`/posts`), query string (`?limit=1`), and/or file extension (`.html`), all optional.
 
 #### 6.0 - Named capture groups
 
-You'll notice here that some of the capture groups now begin with a `?<name>` identifier.  This is the syntax for a *named capture group*, which makes the data extraction easier and more clear.
+You'll notice here that some of the capture groups now begin with a `?<name>` identifier.  This is the syntax for a *named capture group*, which makes the data extraction cleaner.
 
 #### 6.1 - Real-World Example - Parse Domain Names From URLs on A Web Page
 
@@ -884,7 +886,7 @@ Regex is an incredibly useful tool, but that doesn't mean you should use it ever
 
 If there is an alternative solution to a problem, which is simpler and/or does not require the use of regular expressions, **please do not use regex just to feel clever**.  Regex is great, but it is also one of the least readable programming tools, and one that is very prone to edge cases and bugs.
 
-Overusing regex is a great way to make your co-workers (and anyone else who needs to work with your code) very angry at you.
+Overusing regex is a great way to make your co-workers (and anyone else who needs to work with your code) very angry with you.
 
 ## Conclusion
 
@@ -899,6 +901,6 @@ To improve your regex skills and to learn more about these features, I would rec
 - Regex101 - https://regex101.com/
 - HackerRank Regex Course - https://www.hackerrank.com/domains/regex/re-introduction
 
-The source code for the examples in this tutorial can be found at the Github repository here - https://github.com/triestpa/You-Should-Learn-Regex
+The source code for the examples in this tutorial can be found at the Github repository here - [https://github.com/triestpa/You-Should-Learn-Regex](https://github.com/triestpa/You-Should-Learn-Regex)
 
 Feel free to comment below with any suggestions, ideas, or criticisms regarding this tutorial.
