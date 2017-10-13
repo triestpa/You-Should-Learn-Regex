@@ -521,17 +521,16 @@ print(result)
 Regular expressions can also be useful for input validation.
 
 ```text
-^.[^@\s]+@.[^@\s]+\.\w{2,6}$
+^[^@\s]+@[^@\s]+\.\w{2,6}$
 ```
 
 Above is an (overly simple) regular expression to match an email address.
 
 - `^` - Start of input
-- `.` - Match any character
-- `[^@\s]` - Don't match `@` or whitespace
+- `[^@\s]` - Match any character except for `@` and whitespace `\s`
 - `+` - 1+ times
 - `@` - Match the '@' symbol
-- `.[^@\s]+` - Match any character (except for "@" and whitespace), 1+ times
+- `[^@\s]+` - Match any character except for `@` and whitespace), 1+ times
 - `\.` - Match the '.' character.
 - `\w{2,6}` - Match any word character (letter, digit, or underscore), 2-6 times
 - `$` - End of input
@@ -541,31 +540,34 @@ Let's say we wanted to create a simple Javascript function to check if an input 
 
 ```javascript
 function isValidEmail (input) {
-  const regex = /^.[^@\s]+@.[^@\s]+\.\w{2,6}$/g;
+  const regex = /^[^@\s]+@[^@\s]+\.\w{2,6}$/g;
   const result = regex.exec(input)
 
   // If result is null, no match was found
-  return result ? true : false
+  return !!result
 }
 
 const tests = [
-    `test.test@gmail.com`,
-    '',
-    `test.test`,
-    `gmail.com`,
-    `this is a test@test.com`,
-    `test.test@gmail.comtest.test@gmail.com`
+  `test.test@gmail.com`, // Valid
+  '', // Invalid
+  `test.test`, // Invalid
+  '@invalid@test.com', // Invalid
+  'invalid@@test.com', // Invalid
+  `gmail.com`, // Invalid
+  `this is a test@test.com`, // Invalid
+  `test.test@gmail.comtest.test@gmail.com` // Invalid
 ]
+
 console.log(tests.map(isValidEmail))
 ```
 
-The output of this script should be `[ true, false, false, false, false, false ]`.
+The output of this script should be `[ true, false, false, false, false, false, false, false ]`.
 
 > Note - In a real-world application, validating an email address using a regular expression is not enough for many situations, such as when a user signs up.  Once you have confirmed that the input text is an email address, you should always follow through with the standard practice of sending a confirmation/activation email.
 
 #### 4.1 - Full Email Regex
 
-This is a very simple example which ignores lots of email-validity edge cases.  I really don't recommend using the above expression in your applications; it would be best to instead use a reputable email-validation library or to track down a more complete email validation regex.
+This is a very simple example which ignores lots of very important email-validity edge cases, such as invalid start/end characters and consecutive periods.  I really don't recommend using the above expression in your applications; it would be best to instead use a reputable email-validation library or to track down a more complete email validation regex.
 
 For instance, here's a more advanced expression from (the aptly named) [emailregex.com](http://emailregex.com/) which matches 99% of [RFC 5322](https://www.ietf.org/rfc/rfc5322.txt) compliant email addresses.
 
