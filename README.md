@@ -902,6 +902,7 @@ To improve your regex skills and to learn more about these features, I would rec
 - Learn Regex The Easy Way - https://github.com/zeeshanu/learn-regex
 - Regex101 - https://regex101.com/
 - HackerRank Regex Course - https://www.hackerrank.com/domains/regex/re-introduction
+- Regex visualizer - https://extendsclass.com/regex-tester.html
 
 The source code for the examples in this tutorial can be found at the Github repository here - [https://github.com/triestpa/You-Should-Learn-Regex](https://github.com/triestpa/You-Should-Learn-Regex)
 
